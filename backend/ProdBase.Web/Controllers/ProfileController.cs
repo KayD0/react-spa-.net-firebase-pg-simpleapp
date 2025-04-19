@@ -4,6 +4,8 @@ using ProdBase.Web.Data;
 using ProdBase.Web.Middleware;
 using ProdBase.Web.Models;
 using ProdBase.Web.Services;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ProdBase.Web.Controllers
 {
@@ -29,8 +31,8 @@ namespace ProdBase.Web.Controllers
                 var firebaseUID = HttpContext.GetUserIdFromToken();
 
                 // Find the user profile
-                var profile = await _dbContext.UserProfiles
-                    .FirstOrDefaultAsync(p => p.FirebaseUID == firebaseUID);
+                var profile = _dbContext.UserProfiles.Where(x => x.FirebaseUID == firebaseUID).First();
+                //    .FirstOrDefaultAsync(p => p.FirebaseUID == firebaseUID);
 
                 if (profile == null)
                 {
@@ -156,9 +158,16 @@ namespace ProdBase.Web.Controllers
 
     public class ProfileUpdateRequest
     {
+        [JsonPropertyName("display_name")]
         public string DisplayName { get; set; }
+        
+        [JsonPropertyName("bio")]
         public string Bio { get; set; }
+
+        [JsonPropertyName("location")]
         public string Location { get; set; }
+
+        [JsonPropertyName("website")]
         public string Website { get; set; }
     }
 }

@@ -4,6 +4,8 @@ using ProdBase.Web.Middleware;
 using ProdBase.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true);
 
 // Add services to the container.
 builder.Services.AddControllers();

@@ -9,33 +9,40 @@ namespace ProdBase.Web.Models
     public class UserProfile
     {
         [Key]
+        [Column("id")]
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
         [Required]
+        [Column("firebase_uid")]
         [StringLength(128)]
         [JsonPropertyName("firebase_uid")]
         public string FirebaseUID { get; set; }
 
         [StringLength(100)]
+        [Column("display_name")]
         [JsonPropertyName("display_name")]
         public string DisplayName { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column("bio", TypeName = "text")]
         [JsonPropertyName("bio")]
         public string Bio { get; set; }
 
         [StringLength(100)]
+        [Column("location")]
         [JsonPropertyName("location")]
         public string Location { get; set; }
 
         [StringLength(255)]
+        [Column("website")]
         [JsonPropertyName("website")]
         public string Website { get; set; }
 
+        [Column("created_at")]
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
 
+        [Column("updated_at")]
         [JsonPropertyName("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
