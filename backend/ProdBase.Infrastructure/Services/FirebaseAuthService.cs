@@ -2,11 +2,16 @@ using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using ProdBase.Domain.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace ProdBase.Web.Services
+namespace ProdBase.Infrastructure.Services
 {
-    public class FirebaseAuthService
+    public class FirebaseAuthService : IAuthService
     {
         private readonly FirebaseAuth _firebaseAuth;
         private readonly ILogger<FirebaseAuthService> _logger;
@@ -97,13 +102,6 @@ namespace ProdBase.Web.Services
             {
                 throw new InvalidOperationException($"Error verifying ID token: {ex.Message}", ex);
             }
-        }
-    }
-
-    public class AuthError : Exception
-    {
-        public AuthError(string message) : base(message)
-        {
         }
     }
 }

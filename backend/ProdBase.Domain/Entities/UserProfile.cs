@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace ProdBase.Web.Models
+namespace ProdBase.Domain.Entities
 {
     [Table("user_profiles")]
     public class UserProfile

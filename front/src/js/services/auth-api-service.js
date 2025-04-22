@@ -9,7 +9,7 @@ import { getAuth } from 'firebase/auth';
 import { getCurrentUser } from './firebase';
 
 // 環境変数からAPIベースURLを取得
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:44308';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 /**
  * 現在のユーザーのIDトークンを取得

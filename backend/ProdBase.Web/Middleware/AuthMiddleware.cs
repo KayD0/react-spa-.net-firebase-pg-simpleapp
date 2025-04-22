@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Http;
-using ProdBase.Web.Services;
+using ProdBase.Domain.Interfaces;
 using System.Security.Claims;
 
 namespace ProdBase.Web.Middleware
@@ -13,7 +13,7 @@ namespace ProdBase.Web.Middleware
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, FirebaseAuthService firebaseAuthService)
+        public async Task InvokeAsync(HttpContext context, IAuthService authService)
         {
             // Get the Authorization header
             var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
@@ -34,7 +34,7 @@ namespace ProdBase.Web.Middleware
             try
             {
                 // Verify the token
-                var claims = await firebaseAuthService.VerifyIdTokenAsync(idToken);
+                var claims = await authService.VerifyIdTokenAsync(idToken);
 
                 // Create a ClaimsPrincipal and set it on the HttpContext
                 var claimsIdentity = new ClaimsIdentity(
@@ -79,6 +79,13 @@ namespace ProdBase.Web.Middleware
             }
 
             return userId;
+        }
+    }
+
+    public class AuthError : Exception
+    {
+        public AuthError(string message) : base(message)
+        {
         }
     }
 }

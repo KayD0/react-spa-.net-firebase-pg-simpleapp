@@ -1,28 +1,6 @@
-@baseUrl = https://localhost:44308
+@ProdBase.Web_HostAddress = http://localhost:5000
 
-### Get API Information
-GET {{baseUrl}}
+GET {{ProdBase.Web_HostAddress}}/weatherforecast/
 Accept: application/json
 
-### Verify Authentication
-POST {{baseUrl}}/api/auth/verify
-Accept: application/json
-Authorization: Bearer YOUR_FIREBASE_ID_TOKEN
-
-### Get User Profile
-GET {{baseUrl}}/api/profile
-Accept: application/json
-Authorization: Bearer YOUR_FIREBASE_ID_TOKEN
-
-### Update User Profile
-PUT {{baseUrl}}/api/profile
-Accept: application/json
-Content-Type: application/json
-Authorization: Bearer YOUR_FIREBASE_ID_TOKEN
-
-{
-  "display_name": "Test User",
-  "bio": "This is a test bio",
-  "location": "Tokyo, Japan",
-  "website": "https://example.com"
-}
+###

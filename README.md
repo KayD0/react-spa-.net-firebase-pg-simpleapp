@@ -1,6 +1,6 @@
-# React SPA Go Postgres アプリケーション
+# React SPA .NET Postgres アプリケーション
 
-Firebase認証を使用したReact SPAとGoバックエンドのウェブアプリケーション
+Firebase認証を使用したReact SPAと.NETバックエンドのウェブアプリケーション
 
 ## 目次
 
@@ -21,7 +21,7 @@ Firebase認証を使用したReact SPAとGoバックエンドのウェブアプ�
 
 ## 概要
 
-このアプリケーションは、ユーザーがFirebase認証でログインし、プロフィール情報を管理できるシンプルなウェブアプリケーションです。バックエンドはGoで実装され、フロントエンドはReact（Vite）とBootstrapで構築されています。データベースにはPostgreSQLを使用しています。
+このアプリケーションは、ユーザーがFirebase認証でログインし、プロフィール情報を管理できるシンプルなウェブアプリケーションです。バックエンドは.NET 8で実装され、フロントエンドはReact（Vite）とBootstrapで構築されています。データベースにはPostgreSQLを使用しています。
 
 ## 主な機能
 
@@ -42,7 +42,8 @@ Firebase認証を使用したReact SPAとGoバックエンドのウェブアプ�
 
 ### バックエンド
 
-- **Go**: サーバーサイド言語
+- **.NET 8**: サーバーサイドフレームワーク
+- **Entity Framework Core**: ORMフレームワーク
 - **PostgreSQL**: データベース
 - **Firebase Admin SDK**: IDトークン検証
 
@@ -55,7 +56,7 @@ Firebase認証を使用したReact SPAとGoバックエンドのウェブアプ�
 このアプリケーションは以下のコンポーネントで構成されています：
 
 1. **フロントエンド（React SPA）**: ユーザーインターフェースを提供し、Firebase SDKを使用して認証を処理します。
-2. **バックエンド（Go API）**: フロントエンドからのリクエストを処理し、データベースとの通信を行います。
+2. **バックエンド（.NET API）**: フロントエンドからのリクエストを処理し、データベースとの通信を行います。
 3. **データベース（PostgreSQL）**: ユーザープロフィールなどのデータを永続化します。
 4. **Firebase Authentication**: ユーザー認証サービスを提供します。
 
@@ -63,7 +64,7 @@ Firebase認証を使用したReact SPAとGoバックエンドのウェブアプ�
 
 ### 前提条件
 
-- Go 1.16以上
+- .NET 8.0 SDK以上
 - Node.js 14以上
 - npm または yarn
 - PostgreSQL
@@ -89,41 +90,44 @@ Firebase認証を使用したReact SPAとGoバックエンドのウェブアプ�
 
 2. バックエンドディレクトリに移動:
    ```bash
-   cd backend
+   cd backend/ProdBase.Web
    ```
 
 3. 依存関係をインストール:
    ```bash
-   go mod download
+   dotnet restore
    ```
 
 4. `.env.example`をコピーして`.env`ファイルを作成:
    ```bash
+   # Windows
+   copy .env.example .env
+   
+   # macOS/Linux
    cp .env.example .env
    ```
 
-5. `.env`ファイルを編集し、必要な環境変数を設定:
-   ```
-   # データベース設定
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_USER=postgres
-   DB_PASSWORD=yourpassword
-   DB_NAME=yourdbname
-
-   # CORS設定
-   CORS_ORIGIN=http://localhost:5173
-
-   # Firebase設定
-   FIREBASE_PROJECT_ID=あなたのfirebaseプロジェクトID
-   FIREBASE_PRIVATE_KEY_ID=あなたのprivate_key_id
-   FIREBASE_PRIVATE_KEY=あなたのprivate_key
-   FIREBASE_CLIENT_EMAIL=あなたのclient_email
-   FIREBASE_CLIENT_ID=あなたのclient_id
-   FIREBASE_AUTH_URI=https://accounts.google.com/o/oauth2/auth
-   FIREBASE_TOKEN_URI=https://oauth2.googleapis.com/token
-   FIREBASE_AUTH_PROVIDER_X509_CERT_URL=https://www.googleapis.com/oauth2/v1/certs
-   FIREBASE_CLIENT_X509_CERT_URL=あなたのclient_x509_cert_url
+5. `.env`ファイルを編集し、必要な環境変数を設定するか、`appsettings.json`または`appsettings.Development.json`ファイルを編集:
+   ```json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "Host=localhost;Port=5432;Database=yourdbname;Username=postgres;Password=yourpassword"
+     },
+     "Cors": {
+       "AllowedOrigins": ["http://localhost:5173"]
+     },
+     "Firebase": {
+       "ProjectId": "あなたのfirebaseプロジェクトID",
+       "PrivateKeyId": "あなたのprivate_key_id",
+       "PrivateKey": "あなたのprivate_key",
+       "ClientEmail": "あなたのclient_email",
+       "ClientId": "あなたのclient_id",
+       "AuthUri": "https://accounts.google.com/o/oauth2/auth",
+       "TokenUri": "https://oauth2.googleapis.com/token",
+       "AuthProviderX509CertUrl": "https://www.googleapis.com/oauth2/v1/certs",
+       "ClientX509CertUrl": "あなたのclient_x509_cert_url"
+     }
+   }
    ```
 
 6. バックエンドサーバーを起動:
@@ -131,14 +135,14 @@ Firebase認証を使用したReact SPAとGoバックエンドのウェブアプ�
    # Windows
    setup.bat
    # または
-   go run main.go
+   dotnet run
 
    # macOS/Linux
    ./setup.sh
    # または
-   go run main.go
+   dotnet run
    ```
-   サーバーは`http://localhost:8080`で実行されます。
+   サーバーは`http://localhost:5000`で実行されます。
 
 ### フロントエンドのセットアップ
 
@@ -168,7 +172,7 @@ Firebase認証を使用したReact SPAとGoバックエンドのウェブアプ�
    VITE_FIREBASE_MESSAGING_SENDER_ID=あなたのmessagingSenderId
    VITE_FIREBASE_APP_ID=あなたのappId
    
-   VITE_API_BASE_URL=http://localhost:8080
+   VITE_API_BASE_URL=http://localhost:5000
    ```
 
 5. 開発サーバーを起動:
@@ -184,22 +188,35 @@ Firebase認証を使用したReact SPAとGoバックエンドのウェブアプ�
 ### バックエンド開発
 
 - **コントローラーの追加**:
-  1. `backend/controllers/`に新しいコントローラーファイルを作成
-  2. 必要なルートとハンドラーを実装
-  3. `controllers/routes.go`にルートを登録
+  1. `backend/ProdBase.Web/Controllers/`に新しいコントローラーファイルを作成
+  2. 必要なルートとアクションメソッドを実装
+  3. 必要に応じてルート属性を設定
 
 - **サービスの追加**:
-  1. `backend/services/`に新しいサービスファイルを作成
-  2. 必要な関数とメソッドを実装
-  3. コントローラーからサービスをインポートして使用
+  1. `backend/ProdBase.Web/Services/`に新しいサービスファイルを作成
+  2. 必要なインターフェースとクラスを実装
+  3. `Program.cs`でサービスを登録
+  4. コントローラーで依存性注入を使用してサービスを利用
 
 - **モデルの追加**:
-  1. `backend/models/`に新しいモデルファイルを作成
-  2. 必要な構造体とメソッドを実装
+  1. `backend/ProdBase.Web/Models/`に新しいモデルファイルを作成
+  2. 必要なプロパティとメソッドを実装
+  3. `Data/ApplicationDbContext.cs`にDbSetを追加
+
+- **データベースマイグレーション**:
+  1. モデルを変更した後、マイグレーションを作成:
+     ```bash
+     dotnet ef migrations add <MigrationName>
+     ```
+  2. データベースを更新:
+     ```bash
+     dotnet ef database update
+     ```
 
 - **テスト**:
-  1. `test_api.go`と`test_auth.go`を参考にテストを作成
-  2. `go test`を使用してテストを実行
+  1. テストプロジェクトを作成
+  2. 単体テストと統合テストを実装
+  3. `dotnet test`を使用してテストを実行
 
 ### フロントエンド開発
 
@@ -233,26 +250,29 @@ Firebase認証を使用したReact SPAとGoバックエンドのウェブアプ�
 ```
 プロジェクトルート/
 ├── backend/                  # バックエンドアプリケーション
-│   ├── controllers/          # コントローラー
-│   │   ├── auth_controller.go
-│   │   ├── main_controller.go
-│   │   ├── profile_controller.go
-│   │   └── routes.go
-│   ├── middleware/           # ミドルウェア
-│   │   └── auth_middleware.go
-│   ├── models/               # データモデル
-│   │   └── user_profile.go
-│   ├── services/             # サービス
-│   │   ├── auth_service.go
-│   │   └── db_service.go
-│   ├── main.go               # メインGoアプリケーション
-│   ├── go.mod                # Goモジュール定義
-│   ├── go.sum                # Goモジュール依存関係
-│   ├── setup.bat             # Windowsセットアップスクリプト
-│   ├── setup.sh              # Unix/Linuxセットアップスクリプト
-│   ├── test_api.go           # APIテスト
-│   ├── test_auth.go          # 認証テスト
-│   └── .env.example          # 環境変数のサンプル
+│   ├── ProdBase.sln          # ソリューションファイル
+│   ├── ProdBase.Web/         # Webプロジェクト
+│   │   ├── Controllers/      # APIコントローラー
+│   │   │   ├── AuthController.cs
+│   │   │   ├── MainController.cs
+│   │   │   └── ProfileController.cs
+│   │   ├── Data/             # データアクセス
+│   │   │   └── ApplicationDbContext.cs
+│   │   ├── Middleware/       # ミドルウェア
+│   │   │   └── AuthMiddleware.cs
+│   │   ├── Models/           # データモデル
+│   │   │   └── UserProfile.cs
+│   │   ├── Services/         # サービス
+│   │   │   └── FirebaseAuthService.cs
+│   │   ├── Properties/       # プロジェクトプロパティ
+│   │   │   └── launchSettings.json
+│   │   ├── Program.cs        # アプリケーションエントリーポイント
+│   │   ├── appsettings.json  # アプリケーション設定
+│   │   ├── appsettings.Development.json # 開発環境設定
+│   │   ├── ProdBase.Web.csproj # プロジェクトファイル
+│   │   ├── setup.bat         # Windowsセットアップスクリプト
+│   │   ├── setup.sh          # Unix/Linuxセットアップスクリプト
+│   │   └── .env.example      # 環境変数のサンプル
 │
 ├── front/                    # フロントエンドアプリケーション
 │   ├── src/
@@ -313,7 +333,7 @@ Firebase認証を使用したReact SPAとGoバックエンドのウェブアプ�
 ### API接続エラー
 
 - **CORS エラー**:
-  1. バックエンドの`CORS_ORIGIN`設定がフロントエンドのURLと一致しているか確認
+  1. バックエンドのCORS設定がフロントエンドのURLと一致しているか確認
   2. フロントエンドの`VITE_API_BASE_URL`がバックエンドのURLと一致しているか確認
 
 ### データベース接続エラー
@@ -322,6 +342,7 @@ Firebase認証を使用したReact SPAとGoバックエンドのウェブアプ�
   1. PostgreSQLサービスが実行されているか確認
   2. データベース接続情報（ホスト、ポート、ユーザー名、パスワード、データベース名）が正しいか確認
   3. データベースユーザーに適切な権限があるか確認
+  4. Entity Frameworkのマイグレーションが適用されているか確認
 
 ## ライセンス
 

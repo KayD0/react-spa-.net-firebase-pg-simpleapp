@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using ProdBase.Web.Data;
+using ProdBase.Application.Interfaces;
+using ProdBase.Application.Services;
+using ProdBase.Domain.Interfaces;
+using ProdBase.Infrastructure.Data;
+using ProdBase.Infrastructure.Services;
 using ProdBase.Web.Middleware;
-using ProdBase.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
@@ -21,8 +24,12 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
+// Register repositories
+builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+
 // Register services
-builder.Services.AddSingleton<FirebaseAuthService>();
+builder.Services.AddSingleton<IAuthService, FirebaseAuthService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 // Configure CORS
 var corsOrigin = builder.Configuration["CORS_ORIGIN"] ?? "http://localhost:3000";
@@ -61,9 +68,5 @@ app.UseFirebaseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-// Get port from environment variable or use default
-// var port = builder.Configuration["PORT"] ?? "5000";
-// app.Urls.Add($"http://*:{port}");
 
 app.Run();

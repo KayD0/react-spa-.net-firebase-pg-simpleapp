@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using ProdBase.Web.Models;
+using ProdBase.Domain.Entities;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace ProdBase.Web.Data
+namespace ProdBase.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
