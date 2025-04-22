@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProdBase.Domain.Entities;
 using ProdBase.Domain.Interfaces;
-using System.Threading.Tasks;
 
 namespace ProdBase.Infrastructure.Data
 {
@@ -22,6 +21,10 @@ namespace ProdBase.Infrastructure.Data
 
         public async Task<UserProfile> CreateAsync(UserProfile userProfile)
         {
+            // Ensure both DateTime properties are explicitly set to UTC time
+            userProfile.CreatedAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+            userProfile.UpdatedAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+
             _dbContext.UserProfiles.Add(userProfile);
             await _dbContext.SaveChangesAsync();
             return userProfile;
@@ -29,6 +32,9 @@ namespace ProdBase.Infrastructure.Data
 
         public async Task<UserProfile> UpdateAsync(UserProfile userProfile)
         {
+            // Ensure UpdatedAt is explicitly set to UTC time
+            userProfile.UpdatedAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+            
             _dbContext.UserProfiles.Update(userProfile);
             await _dbContext.SaveChangesAsync();
             return userProfile;

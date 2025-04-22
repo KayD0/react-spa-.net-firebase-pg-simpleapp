@@ -72,6 +72,10 @@ namespace ProdBase.Application.Services
                     profile.Website = request.Website;
                 }
 
+                // Always update the UpdatedAt property with UTC time
+                profile.CreatedAt = DateTime.SpecifyKind(profile.CreatedAt, DateTimeKind.Utc);
+                profile.UpdatedAt = DateTime.UtcNow;
+
                 profile = await _userProfileRepository.UpdateAsync(profile);
             }
 
