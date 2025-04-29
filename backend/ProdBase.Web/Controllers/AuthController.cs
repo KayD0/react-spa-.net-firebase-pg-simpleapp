@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using ProdBase.Web.Middleware;
 
 namespace ProdBase.Web.Controllers
 {

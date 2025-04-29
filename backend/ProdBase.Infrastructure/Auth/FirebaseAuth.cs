@@ -1,25 +1,21 @@
 using FirebaseAdmin;
-using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ProdBase.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace ProdBase.Infrastructure.Services
+namespace ProdBase.Infrastructure.Auth
 {
-    public class FirebaseAuthService : IAuthService
+    public class FirebaseAuth : IAuthService
     {
-        private readonly FirebaseAuth _firebaseAuth;
-        private readonly ILogger<FirebaseAuthService> _logger;
+        private readonly FirebaseAdmin.Auth.FirebaseAuth _firebaseAuth;
+        private readonly ILogger<FirebaseAuth> _logger;
 
-        public FirebaseAuthService(IConfiguration configuration, ILogger<FirebaseAuthService> logger)
+        public FirebaseAuth(IConfiguration configuration, ILogger<FirebaseAuth> logger)
         {
             _logger = logger;
-            
+
             // Initialize Firebase Admin SDK if not already initialized
             if (FirebaseApp.DefaultInstance == null)
             {
@@ -55,12 +51,12 @@ namespace ProdBase.Infrastructure.Services
 
                         var serviceAccountJson = JsonSerializer.Serialize(serviceAccount);
                         var credential = GoogleCredential.FromJson(serviceAccountJson);
-                        
+
                         FirebaseApp.Create(new AppOptions
                         {
                             Credential = credential
                         });
-                        
+
                         _logger.LogInformation("Firebase Admin SDK initialized with service account credentials");
                     }
                     else
@@ -70,7 +66,7 @@ namespace ProdBase.Infrastructure.Services
                         {
                             Credential = GoogleCredential.GetApplicationDefault()
                         });
-                        
+
                         _logger.LogInformation("Firebase Admin SDK initialized with application default credentials");
                     }
                 }
@@ -80,7 +76,7 @@ namespace ProdBase.Infrastructure.Services
                 }
             }
 
-            _firebaseAuth = FirebaseAuth.DefaultInstance;
+            _firebaseAuth = FirebaseAdmin.Auth.FirebaseAuth.DefaultInstance;
         }
 
         public async Task<Dictionary<string, object>> VerifyIdTokenAsync(string idToken)
@@ -94,7 +90,7 @@ namespace ProdBase.Infrastructure.Services
             {
                 // Verify the token
                 var decodedToken = await _firebaseAuth.VerifyIdTokenAsync(idToken);
-                
+
                 // Return the token claims
                 return decodedToken.Claims.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }

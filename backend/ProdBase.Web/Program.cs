@@ -3,7 +3,6 @@ using ProdBase.Application.Interfaces;
 using ProdBase.Application.Services;
 using ProdBase.Domain.Interfaces;
 using ProdBase.Infrastructure.Data;
-using ProdBase.Infrastructure.Services;
 using ProdBase.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +13,7 @@ builder.Configuration
 builder.Services.AddControllers();
 
 // Configure database
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
     $"Host={builder.Configuration["DB_HOST"] ?? "localhost"};" +
     $"Port={builder.Configuration["DB_PORT"] ?? "5432"};" +
     $"Database={builder.Configuration["DB_NAME"] ?? "youtubeapp"};" +
@@ -28,7 +27,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
 // Register services
-builder.Services.AddSingleton<IAuthService, FirebaseAuthService>();
+builder.Services.AddSingleton<IAuthService, FirebaseAuth>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 
 // Configure CORS

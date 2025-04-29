@@ -1,4 +1,3 @@
-using System;
 using System.Text.Json.Serialization;
 
 namespace ProdBase.Application.DTOs
@@ -34,7 +33,7 @@ namespace ProdBase.Application.DTOs
     {
         [JsonPropertyName("display_name")]
         public string DisplayName { get; set; }
-        
+
         [JsonPropertyName("bio")]
         public string Bio { get; set; }
 

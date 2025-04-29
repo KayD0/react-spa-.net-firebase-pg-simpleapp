@@ -1,9 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using ProdBase.Domain.Entities;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ProdBase.Infrastructure.Data
 {
@@ -36,12 +32,12 @@ namespace ProdBase.Infrastructure.Data
             foreach (var entityEntry in entries)
             {
                 var userProfile = (UserProfile)entityEntry.Entity;
-                
+
                 if (entityEntry.State == EntityState.Added)
                 {
                     userProfile.CreatedAt = DateTime.UtcNow;
                 }
-                
+
                 userProfile.UpdatedAt = DateTime.UtcNow;
             }
 
@@ -58,12 +54,12 @@ namespace ProdBase.Infrastructure.Data
             foreach (var entityEntry in entries)
             {
                 var userProfile = (UserProfile)entityEntry.Entity;
-                
+
                 if (entityEntry.State == EntityState.Added)
                 {
                     userProfile.CreatedAt = DateTime.UtcNow;
                 }
-                
+
                 userProfile.UpdatedAt = DateTime.UtcNow;
             }
 

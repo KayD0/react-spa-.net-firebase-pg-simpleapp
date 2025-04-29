@@ -1,5 +1,4 @@
 using ProdBase.Application.DTOs;
-using System.Threading.Tasks;
 
 namespace ProdBase.Application.Interfaces
 {

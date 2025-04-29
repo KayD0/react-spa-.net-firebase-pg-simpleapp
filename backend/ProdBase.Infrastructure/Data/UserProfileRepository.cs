@@ -34,7 +34,7 @@ namespace ProdBase.Infrastructure.Data
         {
             // Ensure UpdatedAt is explicitly set to UTC time
             userProfile.UpdatedAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
-            
+
             _dbContext.UserProfiles.Update(userProfile);
             await _dbContext.SaveChangesAsync();
             return userProfile;

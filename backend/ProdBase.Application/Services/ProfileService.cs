@@ -2,8 +2,6 @@ using ProdBase.Application.DTOs;
 using ProdBase.Application.Interfaces;
 using ProdBase.Domain.Entities;
 using ProdBase.Domain.Interfaces;
-using System;
-using System.Threading.Tasks;
 
 namespace ProdBase.Application.Services
 {
@@ -19,7 +17,7 @@ namespace ProdBase.Application.Services
         public async Task<ProfileDto> GetProfileAsync(string firebaseUid)
         {
             var profile = await _userProfileRepository.GetByFirebaseUidAsync(firebaseUid);
-            
+
             if (profile == null)
             {
                 // Create a new profile if it doesn't exist
@@ -37,7 +35,7 @@ namespace ProdBase.Application.Services
         public async Task<ProfileDto> UpdateProfileAsync(string firebaseUid, ProfileUpdateRequest request)
         {
             var profile = await _userProfileRepository.GetByFirebaseUidAsync(firebaseUid);
-            
+
             if (profile == null)
             {
                 // Create a new profile if it doesn't exist

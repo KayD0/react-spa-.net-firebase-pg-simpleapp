@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using ProdBase.Domain.Interfaces;
 using System.Security.Claims;
 
