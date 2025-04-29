@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ProdBase.Domain.Entities;
 using ProdBase.Domain.Interfaces;
 
-namespace ProdBase.Infrastructure.Data
+namespace ProdBase.Infrastructure.Repository
 {
     public class UserProfileRepository : IUserProfileRepository
     {

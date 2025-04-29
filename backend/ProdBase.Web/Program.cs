@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ProdBase.Application.Interfaces;
 using ProdBase.Application.Services;
 using ProdBase.Domain.Interfaces;
-using ProdBase.Infrastructure.Data;
+using ProdBase.Infrastructure.Repository;
 using ProdBase.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);

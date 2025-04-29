@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProdBase.Domain.Entities;
 
-namespace ProdBase.Infrastructure.Data
+namespace ProdBase.Infrastructure.Repository
 {
     public class ApplicationDbContext : DbContext
     {
